@@ -53,8 +53,9 @@ void update()
 
     avaliaPop(img);
 
-    imgproc = elitismo(img.size());
-    printPop(imgproc);
+    //imgproc = elitismo(img.size());
+    imgproc = torneio(img.size(), img);
+    //printPop(imgproc);
 
     draw();
 }
@@ -104,7 +105,8 @@ int main(int argc, char **argv)
         glClearColor(1.0, 1.0, 1.0, 1.0);
         avaliaPop(img);
 
-        imgproc = elitismo(img.size());
+        imgproc = torneio(img.size(), img);
+        //imgproc = elitismo(img.size());
         // printPop(imgproc);
 
         draw();
