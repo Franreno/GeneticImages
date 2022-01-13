@@ -42,7 +42,7 @@ void printPop(dataType v, int maxi)
     //     cout << (unsigned int) byte << endl;
     // }
 
-    cout << gen << ", " << fit[maxi] << ", " << endl;
+    cout << gen << ", " << fit[maxi] << endl;
 }
 
 void avaliaPop(dataType img)
@@ -180,11 +180,16 @@ dataType torneio(int size, dataType img)
         case 90:
             taxMut *= 2;
             break;
-        case 500:
+        case 100:
             countNoMutation = 0;
             taxMut = TAXMUT;
-            genocidio(size, img);
-            maxi = 0;
+            predacaoSintetica(mini, size, img);
+            break;
+        // case 500:
+        //     countNoMutation = 0;
+        //     taxMut = TAXMUT;
+        //     genocidio(size, img);
+        //     maxi = 0;
         }
     }
     else
