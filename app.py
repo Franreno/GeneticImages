@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 import argparse
 
 
@@ -15,7 +16,7 @@ def readfile(filename):
     return buffer
 
 
-def main(filename: str):
+def parseFile(filename: str):
     file = readfile(filename)
     generations = []
     fit = []
@@ -25,19 +26,40 @@ def main(filename: str):
         generations.append(int(element[0]))
         fit.append(int(element[1]))
 
-    plt.plot(generations, fit)
-    plt.title(filename.replace(".txt", ""))
-    plt.xlabel("Geracao")
-    plt.ylabel("Fitness")
+    return generations, fit
+
+
+def main(content: list, fpath: str):
+    fig = plt.figure(constrained_layout=True)
+    rows = 0
+    if(len(content) % 2 == 0):
+        rows = int(len(content)/2)
+    else:
+        rows = int(int(len(content) / 2) + 1)
+
+    ax = fig.subplots(rows, 2)
+
+    counter = 0
+    for i in range(rows):
+        for j in range(2):
+            generations, fit = parseFile(fpath+content[counter])
+            ax[i,j].plot(generations, fit)
+            ax[i,j].set_title(content[counter].replace(".txt", ""))
+
+            counter+=1
+            if(counter >= len(content)):
+                break
+            
+
+
+    # plt.plot(generations, fit)
+    # plt.title(filename.replace(".txt", ""))
+    # plt.xlabel("Geracao")
+    # plt.ylabel("Fitness")
     plt.show()
-
-
 if '__main__' == __name__:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-f", "--file", required=True,
-                    help="Text Source for histogram")
-    args = vars(ap.parse_args())
+    path = "./data/"
 
-    main(args["file"])
+    main(os.listdir(path), path)
 
     pass
