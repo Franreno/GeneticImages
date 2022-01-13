@@ -101,18 +101,6 @@ void draw()
     glutSwapBuffers();
 }
 
-// void update()
-// {
-
-//     avaliaPop(img);
-
-//     //imgproc = elitismo(img.size());
-//     imgproc = torneio(img.size(), img);
-//     //printPop(imgproc);
-
-//     draw();
-// }
-
 void timer(int)
 {
     glutPostRedisplay();
@@ -128,7 +116,7 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB);
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    glutCreateWindow("Imagem");
+    int winId = glutCreateWindow("Imagem");
     glClearColor(1.0, 1.0, 1.0, 1.0);
 
     FILE *fd = fopen("images/heart.pgm", "rb");
@@ -159,35 +147,18 @@ int main(int argc, char **argv)
         glClearColor(1.0, 1.0, 1.0, 1.0);
         ag.evaluatePop();
         ag.tournament();
+        //ag.elitism();
+        
         ag.print();
 
         imgproc = ag.getBest();
 
         draw();
         glutPostRedisplay();
-    } while (1);
+    } while (ag.getGeneration() != LIMIT_GEN);
 
-    // // glutTimerFunc(1000 / 15, timer, 0);
-
-    // iniPop(img.size());
-    // glutDisplayFunc(draw);
-
-    // do
-    // {
-    //     glClearColor(1.0, 1.0, 1.0, 1.0);
-    //     avaliaPop(img);
-
-    //     imgproc = torneio(img.size(), img);
-    //     //imgproc = elitismo(img.size());
-    //     // printPop(imgproc);
-
-    //     draw();
-    //     glutPostRedisplay();
-
-    // } while (1);
-
-    // glutTimerFunc(1000 / 15, timer, 0);
     glutMainLoop();
 
+    glutDestroyWindow(winId);
     return 0;
 }

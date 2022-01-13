@@ -14,6 +14,9 @@ using namespace std;
 #define MUTATION_RATE 0.02
 #define MUTATION_RATE_VAR 2
 #define NUM_TOURNAMENT 20
+#define ACCEPTANCE 0.2
+#define PREDATION_USES 6
+#define LIMIT_GEN 20000
 
 typedef vector<unsigned char> dataType;
 
@@ -22,17 +25,19 @@ class Ag {
         dataType imgMap;
 
         vector <dataType> pop;
-        vector <int> fitness;
+        vector <float> fitness;
         int countWithouMutation;
         float mutationRate;
         int generation;
 
         //Melhor de todos
         int bestIndex;
-        int bestScore;
+        float bestScore;
         dataType best;
 
         float avg;
+        float acceptance;
+        int bit;
 
         random_device randomGenerator;
         uniform_int_distribution <unsigned short> genesDistribution;
@@ -52,13 +57,14 @@ class Ag {
 
         void crossover(int, int, int);
         void mutation(int index);
-        void defineMutationRate();
+        void defineMutationRate(int);
         void genocide();   
         void syntheticPredation();
         void randomPredation();
 
         void print();
         dataType getBest();
+        int getGeneration();
 };
 
 #endif

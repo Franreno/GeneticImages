@@ -6,6 +6,8 @@ Ag::Ag(dataType imgMap){
     this->mutationRate = MUTATION_RATE;
     this->countWithouMutation = 0;
     this->bestScore = 0;
+    this->acceptance = ACCEPTANCE;
+    this->bit = 0;
 
 
     uniform_int_distribution<unsigned short> dist1(0, 255);
@@ -36,7 +38,7 @@ void Ag::buildRandomPop(int beginIndex){
         }
 
         //Inicializa o vector com fitness
-        fitness.push_back(0);
+        fitness.push_back(0.0);
 
         //adiciona na populacao
         pop.push_back(v);
@@ -61,7 +63,9 @@ void Ag::initialize(){
  */
 void Ag::evaluateElem(int index){
     fitness[index] = 0;
-    
+
+    int limit1 = (int) (acceptance * 255);
+    int limit2 = (int) ((acceptance + 0.05) * 255);
     /**
      * Percorre cada caracter da imagem e do elemento da populacao
      */
@@ -70,6 +74,10 @@ void Ag::evaluateElem(int index){
         if (pop[index][j] == imgMap[j]){
             //Se sim, incrementa um
             fitness[index]++;
+        } else if(pop[index][j] < (imgMap[j] + limit1) && pop[index][j] > (imgMap[j] - limit1)){
+            fitness[index] += 0.75;
+        } else if(pop[index][j] < (imgMap[j] + limit2) && pop[index][j] > (imgMap[j] - limit2)){
+            fitness[index] += 0.4;
         }
     }
 }
@@ -96,11 +104,13 @@ void Ag::findBestElem(){
     /**
      * Encontra o melhor individuo
      */
-    bestIndex = 0;
-    bestScore = fitness[0];
-    this->avg = bestScore;
+    // bestIndex = 0;
+    // bestScore = fitness[0];
+    // this->avg = bestScore;
 
-    for(long unsigned int i = 1; i < fitness.size(); i++){
+    this->avg = 0;
+
+    for(long unsigned int i = 0; i < fitness.size(); i++){
         if (fitness[i] > bestScore){
             bestScore = fitness[i];
             bestIndex = i;
@@ -156,16 +166,16 @@ int Ag::tournamentSelection(){
  * Realiza selecao por meio do Torneio
  */
 void Ag::tournament(){
-    int oldBestScore = bestScore;
+    float oldBestScore = bestScore;
 
     //Encontra o melhor individuo
     findBestElem();
 
-    if (oldBestScore == bestScore){
+    if (bestScore - oldBestScore < 0.01){
         countWithouMutation++;
 
         //Define a taxa de mutacao
-        defineMutationRate();
+        defineMutationRate(PREDATION_USES);
     } else {
         countWithouMutation = 0;
     }
@@ -195,8 +205,19 @@ void Ag::tournament(){
  * Executa o metodo de selecao de Elitismo
  */
 void Ag::elitism(){
+    float oldBestScore = bestScore;
+
     //Encontra o melhor individuo
     findBestElem();
+
+    if (bestScore - oldBestScore < 0.01){
+        countWithouMutation++;
+
+        //Define a taxa de mutacao
+        defineMutationRate(PREDATION_USES);
+    } else {
+        countWithouMutation = 0;
+    }
 
     for (int i = 0; i < POPSIZE; i++){
         if(bestIndex == i){
@@ -259,6 +280,8 @@ void Ag::mutation(int index){
  * Executa genocidio na populacao
  */
 void Ag::genocide(){
+    //cout << "GENOCIDIO" << endl;
+
     //Limpa da memoria a populacao
     pop.clear();
     fitness.clear();
@@ -273,7 +296,7 @@ void Ag::genocide(){
     bestIndex = 0;
 
     //Constroi uma populacao aleatoria partindo da posicao 1 do array
-    buildRandomPop(1);
+    buildRandomPop(0);
 
     //Avalia a populacao criada
     evaluatePop();
@@ -348,32 +371,147 @@ void Ag::randomPredation(){
 }
 
 
-void Ag::defineMutationRate(){
-    if(countWithouMutation % 10 != 0){
+void Ag::defineMutationRate(int predationUses = 0){
+    if(countWithouMutation % 5 != 0){
         return;
     }
 
-    /**
+     /**
      * Para cada faixa de inatividade no melhor de todos, estabelece uma taxa
      * de mutacao diferente, ate que executa genocidio.
      */
-    if(countWithouMutation == 10 || countWithouMutation == 20){
-        mutationRate /= MUTATION_RATE_VAR;
-    } else if(countWithouMutation == 30){
-        mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
-    } else if(countWithouMutation >= 40 && countWithouMutation <= 90){
-        mutationRate *= MUTATION_RATE_VAR;
-    } else if(countWithouMutation == 500){
-        countWithouMutation = 0;
-        mutationRate = MUTATION_RATE;
-        cout << "OLAAAAAAAA" << endl;
-        genocide();
+    switch (predationUses){
+        case 0:
+            if(countWithouMutation >= 5 && countWithouMutation <= 20){
+                mutationRate /= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 25){
+                mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
+            } else if(countWithouMutation >= 30 && countWithouMutation <= 60){
+                mutationRate *= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 70){
+                countWithouMutation = 0;
+                mutationRate = MUTATION_RATE;
+                genocide();
+            }   
+            break;
+        case 1:
+            if(countWithouMutation >= 5 && countWithouMutation <= 20){
+                mutationRate /= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 25){
+                mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
+            } else if(countWithouMutation >= 30 && countWithouMutation <= 60){
+                mutationRate *= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 65){
+                countWithouMutation = 0;
+                mutationRate = MUTATION_RATE;
+                randomPredation();
+            } 
+            break;
+        case 2:
+            if(countWithouMutation >= 5 && countWithouMutation <= 20){
+                mutationRate /= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 25){
+                mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
+            } else if(countWithouMutation >= 30 && countWithouMutation <= 60){
+                mutationRate *= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 65){
+                mutationRate = MUTATION_RATE;
+                randomPredation();
+            } else if(countWithouMutation >= 80 && countWithouMutation <= 110){
+                mutationRate *= MUTATION_RATE_VAR;
+            }  else if(countWithouMutation == 120){
+                countWithouMutation = 0;
+                mutationRate = MUTATION_RATE;
+                genocide();
+            }   
+            break;
+        case 3:
+            if(countWithouMutation >= 5 && countWithouMutation <= 20){
+                mutationRate /= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 25){
+                mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
+            } else if(countWithouMutation >= 30 && countWithouMutation <= 60){
+                mutationRate *= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 65){
+                countWithouMutation = 0;
+                mutationRate = MUTATION_RATE;
+                syntheticPredation();
+            } 
+            break;
+        case 4:
+            if(countWithouMutation >= 5 && countWithouMutation <= 20){
+                mutationRate /= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 25){
+                mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
+            } else if(countWithouMutation >= 30 && countWithouMutation <= 60){
+                mutationRate *= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 65){
+                mutationRate = MUTATION_RATE;
+                syntheticPredation();
+            } else if(countWithouMutation >= 80 && countWithouMutation <= 110){
+                mutationRate *= MUTATION_RATE_VAR;
+            }  else if(countWithouMutation == 120){
+                countWithouMutation = 0;
+                mutationRate = MUTATION_RATE;
+                genocide();
+            }   
+            break;
+        case 5:
+            if(countWithouMutation >= 5 && countWithouMutation <= 20){
+                mutationRate /= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 25){
+                mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
+            } else if(countWithouMutation >= 30 && countWithouMutation <= 60){
+                mutationRate *= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 65){
+                countWithouMutation = 0;
+                mutationRate = MUTATION_RATE;
+                if(bit == 0) {
+                    bit = 1;
+                    randomPredation();
+                }
+                else{
+                    bit = 0;
+                    syntheticPredation();
+                }
+            }  
+            break;
+        case 6:
+            if(countWithouMutation >= 5 && countWithouMutation <= 20){
+                mutationRate /= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 25){
+                mutationRate *= MUTATION_RATE_VAR * MUTATION_RATE_VAR;
+            } else if(countWithouMutation >= 30 && countWithouMutation <= 60){
+                mutationRate *= MUTATION_RATE_VAR;
+            } else if(countWithouMutation == 65){
+                mutationRate = MUTATION_RATE;
+                if(bit == 0) {
+                    bit = 1;
+                    randomPredation();
+                }
+                else{
+                    bit = 0;
+                    syntheticPredation();
+                }
+            } else if(countWithouMutation >= 80 && countWithouMutation <= 110){
+                mutationRate *= MUTATION_RATE_VAR;
+            }  else if(countWithouMutation == 120){
+                countWithouMutation = 0;
+                mutationRate = MUTATION_RATE;
+                genocide();
+            }   
+            break;
     }
+   
     
 }
 
 dataType Ag::getBest(){
     return best;
+}
+
+int Ag::getGeneration(){
+    return generation;
 }
 
 void Ag::print(){
