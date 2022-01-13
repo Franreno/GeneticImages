@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TAMPOP 100
+#define TAMPOP 1000
 #define TAXMUT 0.02
 #define NUM_IND_TORNEIO 20
 

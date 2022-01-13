@@ -20,7 +20,7 @@ def main(filename: str):
     generations = []
     fit = []
 
-    for index, element in enumerate(file):
+    for element in file:
         element = element.split(',')
         generations.append(int(element[0]))
         fit.append(int(element[1]))
