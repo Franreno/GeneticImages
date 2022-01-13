@@ -4,7 +4,7 @@ INC = -I ./headers
 FLAGS = -Wall -g -lglut -lGLU -lGL
 OUT = prog
 
-OBJECTS = ag.o
+OBJECTS = Ag.o
 
 all: $(OBJECTS)
 	$(COMP) $(SRC)/main.cpp $(OBJECTS) -o $(OUT) $(INC) $(FLAGS)
