@@ -3,16 +3,69 @@
 #include <stdlib.h>
 #include <vector>
 
-#include "ag.hpp"
+#include "Ag.hpp"
 
-#define HEADER_SIZE 13 //15
 #define WINDOW_WIDTH 600
 #define WINDOW_HEIGHT 600
-#define PIXEL_SIZE 1
-#define PIXEL_SIZE_RELATIVE_TO_OPENGL 0.125
 
 dataType img;
 dataType imgproc;
+
+float PIXEL_SIZE_RELATIVE_TO_OPENGL = 0;
+int imgWidth = 0;
+int imgHeight = 0;
+
+void readCabecalho(FILE *f, long fileSize)
+{
+    string helper = "";
+
+    char c = 0;
+
+    // Pular os tres primeiros bytes
+    fseek(f, 3, SEEK_CUR);
+
+    fread(&c, sizeof(unsigned char), 1, f);
+    // Verificar se o caractere lido foi #
+    if (c == '#')
+    {
+        // Pular o comentario do cabecalho
+        while (c != '\n')
+            fread(&c, sizeof(unsigned char), 1, f);
+    }
+    else
+    {
+        helper += c;
+    }
+
+    // Ler a primeira dimensao da imagem
+    while (c != ' ')
+    {
+        fread(&c, sizeof(unsigned char), 1, f);
+        helper += c;
+    }
+
+    imgWidth = atoi(helper.c_str());
+    helper = "";
+
+    // Ler a segunda dimensao da imagem
+    while (c != '\n')
+    {
+        fread(&c, sizeof(unsigned char), 1, f);
+        helper += c;
+    }
+
+    imgHeight = atoi(helper.c_str());
+
+    // Calculo do pixel
+    PIXEL_SIZE_RELATIVE_TO_OPENGL = 1 / (imgWidth * 0.5);
+
+    c = 0;
+    // Read last line from header
+    while (c != '\n')
+    {
+        fread(&c, sizeof(unsigned char), 1, f);
+    }
+}
 
 void draw()
 {
@@ -35,7 +88,7 @@ void draw()
 
         row += PIXEL_SIZE_RELATIVE_TO_OPENGL;
         columnsCounter++;
-        if (columnsCounter == 16)
+        if (columnsCounter == imgWidth)
         {
             columnsCounter = 0;
             row = -1;
@@ -48,23 +101,23 @@ void draw()
     glutSwapBuffers();
 }
 
-void update()
-{
+// void update()
+// {
 
-    avaliaPop(img);
+//     avaliaPop(img);
 
-    //imgproc = elitismo(img.size());
-    imgproc = torneio(img.size(), img);
-    //printPop(imgproc);
+//     //imgproc = elitismo(img.size());
+//     imgproc = torneio(img.size(), img);
+//     //printPop(imgproc);
 
-    draw();
-}
+//     draw();
+// }
 
 void timer(int)
 {
     glutPostRedisplay();
 
-    update();
+    //update();
 
     glutTimerFunc(1000 / 15, timer, 0);
 }
@@ -86,7 +139,9 @@ int main(int argc, char **argv)
 
     fseek(fd, 0, SEEK_END);
     long fileSize = ftell(fd);
-    fseek(fd, HEADER_SIZE, SEEK_SET);
+    fseek(fd, 0, SEEK_SET);
+
+    readCabecalho(fd, fileSize);
 
     unsigned char byte;
 
@@ -97,23 +152,42 @@ int main(int argc, char **argv)
     }
     fclose(fd);
 
-    iniPop(img.size());
-    glutDisplayFunc(draw);
+    Ag ag(img);
+    ag.initialize();
 
-    do
-    {
+    do{
         glClearColor(1.0, 1.0, 1.0, 1.0);
-        avaliaPop(img);
+        ag.evaluatePop();
+        ag.tournament();
+        ag.print();
 
-        imgproc = torneio(img.size(), img);
-        //imgproc = elitismo(img.size());
-        // printPop(imgproc);
+        imgproc = ag.getBest();
 
         draw();
         glutPostRedisplay();
-
     } while (1);
+
+    // // glutTimerFunc(1000 / 15, timer, 0);
+
+    // iniPop(img.size());
+    // glutDisplayFunc(draw);
+
+    // do
+    // {
+    //     glClearColor(1.0, 1.0, 1.0, 1.0);
+    //     avaliaPop(img);
+
+    //     imgproc = torneio(img.size(), img);
+    //     //imgproc = elitismo(img.size());
+    //     // printPop(imgproc);
+
+    //     draw();
+    //     glutPostRedisplay();
+
+    // } while (1);
 
     // glutTimerFunc(1000 / 15, timer, 0);
     glutMainLoop();
+
+    return 0;
 }
