@@ -4,7 +4,7 @@
 #include <random>
 #include <iostream>
 
-#include "ag.hpp"
+#include "ag-estruturado.hpp"
 
 /**
  * Variaveis Globais
@@ -200,7 +200,7 @@ dataType torneio(int size, dataType img)
 
         int a = distribution(randomGenerator) % TAMPOP;
         int b = distribution(randomGenerator) % TAMPOP;
-        ;
+
         for (int j = 0; j < NUM_IND_TORNEIO - 2; j++)
         {
             if (fit[b] > fit[a])
@@ -212,7 +212,7 @@ dataType torneio(int size, dataType img)
 
         int c = distribution(randomGenerator) % TAMPOP;
         int d = distribution(randomGenerator) % TAMPOP;
-        ;
+        
         for (int j = 0; j < NUM_IND_TORNEIO - 2; j++)
         {
             if (fit[d] > fit[c])

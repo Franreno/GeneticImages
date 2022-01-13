@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <vector>
 
-#include "ag.hpp"
+#include "Ag.hpp"
 
 #define HEADER_SIZE 13 //15
 #define WINDOW_WIDTH 600
@@ -48,23 +48,23 @@ void draw()
     glutSwapBuffers();
 }
 
-void update()
-{
+// void update()
+// {
 
-    avaliaPop(img);
+//     avaliaPop(img);
 
-    //imgproc = elitismo(img.size());
-    imgproc = torneio(img.size(), img);
-    //printPop(imgproc);
+//     //imgproc = elitismo(img.size());
+//     imgproc = torneio(img.size(), img);
+//     //printPop(imgproc);
 
-    draw();
-}
+//     draw();
+// }
 
 void timer(int)
 {
     glutPostRedisplay();
 
-    update();
+    //update();
 
     glutTimerFunc(1000 / 15, timer, 0);
 }
@@ -97,23 +97,41 @@ int main(int argc, char **argv)
     }
     fclose(fd);
 
-    iniPop(img.size());
-    glutDisplayFunc(draw);
+    Ag ag(img);
+    ag.initialize();
 
-    do
-    {
+    do{
         glClearColor(1.0, 1.0, 1.0, 1.0);
-        avaliaPop(img);
+        ag.evaluatePop();
+        ag.tournament();
+        ag.print();
 
-        imgproc = torneio(img.size(), img);
-        //imgproc = elitismo(img.size());
-        // printPop(imgproc);
+        imgproc = ag.getBest();
 
         draw();
         glutPostRedisplay();
-
     } while (1);
+
+
+    // iniPop(img.size());
+    // glutDisplayFunc(draw);
+
+    // do
+    // {
+    //     glClearColor(1.0, 1.0, 1.0, 1.0);
+    //     avaliaPop(img);
+
+    //     imgproc = torneio(img.size(), img);
+    //     //imgproc = elitismo(img.size());
+    //     // printPop(imgproc);
+
+    //     draw();
+    //     glutPostRedisplay();
+
+    // } while (1);
 
     // glutTimerFunc(1000 / 15, timer, 0);
     glutMainLoop();
+
+    return 0;
 }
