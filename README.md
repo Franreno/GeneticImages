@@ -31,15 +31,20 @@ No algoritmo evolutivo, foram implementados métodos que avaliavam diferentes co
 
 ## Resultados Obtidos
 
-Com a execução do algoritmo, imagens similares a esta
+Com a execução do algoritmo, imagens similares a este:
 
 
-Imagem Original           |  Imagem gerada
-:-------------------------:|:-------------------------:
-![](https://github.com/Franreno/GeneticImages/blob/main/data/torneio3.png?raw=true)  |  ![](https://...Ocean.png)
+<table>
+    <tr>
+        <th><center>Imagem Original</center></th>
+        <th><center>Imagem Construída</center></th> 
+    </tr>
+    <tr>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/data/Original.png?raw=true" raw=true width=250></td>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/data/torneio3.png?raw=true" raw=true width=250></td>
+    </tr>
+</table>
 
-<img
-src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/Todas.png?raw=true" raw=true/>
 
 ## Instalação
 
