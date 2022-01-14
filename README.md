@@ -58,7 +58,7 @@ Para cada estratégia diferente de Elitismo, tem-se que:
 - `elitismo1`: Elitismo + mutação variável + predação randômica.
 - `elitismo2`: Elitismo + mutação variável + predação randômica + genocídio.
 - `elitismo3`: Elitismo + mutação variável + predação sintética.
-- `elitismo4`: Elitismo + mutação variável + predação sintética + gencídio.
+- `elitismo4`: Elitismo + mutação variável + predação sintética + genocídio.
 - `elitismo5`: Elitismo + mutação variável + predação randômica + predação sintética.
 - `elitismo6`: Elitismo + mutação variável +  predação randômica + predação sintética + genocídio.
 
