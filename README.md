@@ -76,7 +76,7 @@ Para cada estratégia diferente de Torneio, tem-se que:
 - `torneio1`: Torneio + mutação variável + predação randômica.
 - `torneio2`: Torneio + mutação variável + predação randômica + genocídio.
 - `torneio3`: Torneio + mutação variável + predação sintética.
-- `torneio4`: Torneio + mutação variável + predação sintética + gencídio.
+- `torneio4`: Torneio + mutação variável + predação sintética + genocídio.
 - `torneio5`: Torneio + mutação variável + predação randômica + predação sintética.
 - `torneio6`: Torneio + mutação variável +  predação randômica + predação sintética + genocídio.
 
