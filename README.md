@@ -9,7 +9,9 @@ O projeto tem como objetivo desenvolver um algoritmo genético capaz de reproduz
 
 A imagem utilizada é do formato `.pgm` no padrão `P5`. Este formato é um arquivo binário que descreve uma imagem em escalas de cinza, com cada byte variando de 0 a 255.
 
-Este projeto foi desenvolvido na disciplina [SCC0713](https://gitlab.com/simoesusp/disciplinas/-/tree/master/SSC0713-Sistemas-Evolutivos-Aplicados-a-Robotica) e possui apenas fins educacionais.
+Este projeto foi desenvolvido na disciplina [SCC0713](https://gitlab.com/simoesusp/disciplinas/-/tree/master/SSC0713-Sistemas-Evolutivos-Aplicados-a-Robotica) e possui apenas fins educacionais. 
+
+Link da apresentação: [clique aqui](https://drive.google.com/file/d/1YB37n-Ap4GNE1A4_iPlwJDlpG-54Z65l/view?usp=sharing).
 
 ## Motivação
 
