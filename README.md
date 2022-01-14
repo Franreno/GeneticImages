@@ -46,6 +46,18 @@ Com a execução do algoritmo, imagens similares a este:
 </table>
 
 
+<table>
+    <tr>
+        <th><center>Imagem Construída</center></th>
+        <th><center>Gráficos de Evolução</center></th> 
+    </tr>
+    <tr>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/data/elitismo0.png?raw=true" raw=true width=250></td>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/elitismo0.png?raw=true" raw=true width=600></td>
+    </tr>
+</table>
+
+
 ## Instalação
 
 
