@@ -38,6 +38,9 @@ Imagem Original           |  Imagem gerada
 :-------------------------:|:-------------------------:
 ![](https://github.com/Franreno/GeneticImages/blob/main/data/torneio3.png?raw=true)  |  ![](https://...Ocean.png)
 
+<img
+src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/Todas.png?raw=true" raw=true/>
+
 ## Instalação
 
 
