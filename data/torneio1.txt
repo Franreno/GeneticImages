@@ -1,5 +1,3 @@
-g++ ./src/main.cpp Ag.o -o prog -I ./headers -Wall -g -lglut -lGLU -lGL
-./prog
 2, 62.8, 49.712
 3, 62.8, 39.762
 4, 63.55, 60.262
