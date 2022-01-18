@@ -57,7 +57,7 @@ def plotSimplesSemMedia(g, f, name):
     ax.set_title(name)
     ax.set_xlabel("Generations")
     ax.set_ylabel("Fitness")
-    plt.savefig(outputPath + name + '.png')
+    plt.savefig(outputPath + name + '_Original.png')
 
 
 def plotConjuntoTotal(g, f, names, save_name):
@@ -115,32 +115,7 @@ def main(content: list, fpath: str):
     plotConjuntoTotal(eli_Gen, eli_Fit, eli_names, "SoElitismo")
     plotConjuntoTotal(tor_Gen, tor_Fit, tor_names, "soTorneio")
 
-    # fig = plt.figure(constrained_layout=True)
-    # rows = 0
-    # if(len(content) % 2 == 0):
-    #     rows = int(len(content)/2)
-    # else:
-    #     rows = int(int(len(content) / 2) + 1)
 
-    # ax = fig.subplots(rows, 2)
-
-    # counter = 0
-    # for i in range(rows):
-    #     for j in range(2):
-    #         generations, fit = parseFile(fpath+content[counter])
-    #         ax[i,j].plot(generations, fit)
-    #         ax[i,j].set_title(content[counter].replace(".txt", ""))
-
-    #         counter+=1
-    #         if(counter >= len(content)):
-    #             break
-
-    # plt.plot(generations, fit, color='b')
-    # plt.plot(generations, mean, color='orange')
-    # plt.title(content[0].replace(".txt", ""))
-    # plt.xlabel("Geracao")
-    # plt.ylabel("Fitness")
-    # plt.show()
 if '__main__' == __name__:
     path = "./data/"
 
