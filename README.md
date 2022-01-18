@@ -47,8 +47,8 @@ Com a execução do algoritmo, imagens similares a este:
         <th><center>Imagem Construída</center></th> 
     </tr>
     <tr>
-        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/data/Original.png?raw=true" raw=true width=250></td>
-        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/data/torneio3.png?raw=true" raw=true width=250></td>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/FotoOriginalUtilizadaNosGraficos.png?raw=true" raw=true width=250></td>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/torneio/torneio3/torneio3.png?raw=true" raw=true width=250></td>
     </tr>
 </table>
 
@@ -93,6 +93,27 @@ Os gráficos contendo a comparação entre o melhor de todos e a média populaci
 Pode-se comparar as estratégias utilizadas por meio de um gráfico comparativo entre o melhor de todos para cada estratégia. O gráfico de gerações por fitness é:
 
 <img src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/Todas.png?raw=true" raw=true>
+
+
+
+## Rodando em uma imagem de tamanho 100x100
+
+O algoritmo rodou por 1 hora e meia, utilizando a estratégia do torneio3, em uma imagem de 100x100 pixels atingindo um fitness satisfatório de 8985.7/10000.
+
+<table>
+    <tr>
+        <th><center>Imagem Original</center></th>
+        <th><center>Imagem Construída</center></th> 
+    </tr>
+    <tr>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/100x100/100x100_Original_pgm.png?raw=true" raw=true width=250></td>
+        <td><img src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/100x100/100x100.jpeg?raw=true" raw=true width=250></td>
+    </tr>
+</table>
+
+### Gráfico da imagem 100x100
+<img src="https://github.com/Franreno/GeneticImages/blob/main/Graficos/100x100/100x100_Original.png?raw=true" raw=true>
+
 
 
 ## Instalação
